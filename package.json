@@ -1,0 +1,11 @@
+{
+  "name": "gluta-nator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Painel simples para competir pedaços de pizza ou sushi.",
+  "scripts": {
+    "dev": "echo 'Use um servidor estático como `npx serve` para desenvolvimento'",
+    "build": "echo 'Site estático - nenhum passo de build necessário'",
+    "start": "echo 'Use um servidor estático como `npx serve` para desenvolvimento'"
+  }
+}
