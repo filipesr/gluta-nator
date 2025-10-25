@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gluta-nator - Competição de pedaços</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+  </head>
+  <body>
+    <header class="top-bar">
+      <div class="container">
+        <span class="logo">Gluta-nator</span>
+        <nav class="top-links">
+          <a href="/" class="top-link">Início</a>
+          <a href="#como-funciona" class="top-link">Como funciona</a>
+          <a href="#perguntas" class="top-link">FAQ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="home-screen" hidden>
+        <div class="hero">
+          <h1>Dispute quem comeu mais pedaços</h1>
+          <p class="lead">
+            Crie um evento, compartilhe o link com o pessoal do rodízio e acompanhe o
+            placar em tempo real direto do celular.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2>Novo evento</h2>
+          <form id="create-event-form" class="form">
+            <label class="form-field">
+              <span class="label-text">Nome do evento</span>
+              <input id="event-name" type="text" maxlength="60" required placeholder="Rodízio da firma" />
+            </label>
+            <button type="submit" class="primary-button">Criar e gerar link</button>
+          </form>
+          <div id="create-event-result" class="result" hidden>
+            <p class="result-title">Evento criado!</p>
+            <p>Compartilhe este link com a galera:</p>
+            <div class="share-box">
+              <input id="share-link" type="text" readonly />
+              <button id="copy-share-link" type="button" class="secondary-button">Copiar</button>
+            </div>
+            <p class="result-note">
+              Quem abrir o link poderá cadastrar o próprio nome e aumentar a contagem pelo celular.
+            </p>
+          </div>
+        </div>
+
+        <section id="recent-events" class="card" hidden>
+          <h2>Eventos criados neste dispositivo</h2>
+          <ul id="recent-events-list" class="list"></ul>
+        </section>
+
+        <section id="como-funciona" class="info">
+          <h2>Como funciona</h2>
+          <ol class="steps">
+            <li>Crie um evento com o nome da competição.</li>
+            <li>Compartilhe o link com todo mundo na mesa.</li>
+            <li>Cada participante cadastra o próprio nome e vai tocando no “+” toda vez que comer um pedaço.</li>
+            <li>O ranking atualiza automaticamente para todos no evento.</li>
+          </ol>
+        </section>
+
+        <section id="perguntas" class="info">
+          <h2>Perguntas frequentes</h2>
+          <details>
+            <summary>Preciso de login?</summary>
+            <p>Não. Basta ter o link do evento para visualizar e participar.</p>
+          </details>
+          <details>
+            <summary>Quantas pessoas podem participar?</summary>
+            <p>O sistema foi pensado para rodízios pequenos e médios (até algumas dezenas de participantes).</p>
+          </details>
+          <details>
+            <summary>Posso resetar minha contagem?</summary>
+            <p>Você pode remover o participante e criar novamente com o mesmo nome para começar do zero.</p>
+          </details>
+        </section>
+      </section>
+
+      <section id="event-screen" hidden>
+        <div class="event-header">
+          <div>
+            <a href="/" class="back-link">← Voltar</a>
+            <h1 id="event-title">Evento</h1>
+            <p id="event-created-at" class="muted"></p>
+          </div>
+          <div class="share-box inline">
+            <input id="event-share-link" type="text" readonly />
+            <button id="event-copy-link" type="button" class="secondary-button">Copiar link</button>
+          </div>
+        </div>
+
+        <div id="event-alert" class="alert" hidden></div>
+
+        <section class="card">
+          <h2>Participantes</h2>
+          <div class="event-stats">
+            <div>
+              <p class="stat-number" id="stat-total-count">0</p>
+              <p class="stat-label">Total de pedaços</p>
+            </div>
+            <div>
+              <p class="stat-number" id="stat-total-participants">0</p>
+              <p class="stat-label">Participantes</p>
+            </div>
+          </div>
+
+          <form id="participant-form" class="form inline-form">
+            <label class="form-field grow">
+              <span class="label-text">Seu nome</span>
+              <input id="participant-name" type="text" maxlength="40" required placeholder="Ex: Ana" />
+            </label>
+            <button type="submit" class="primary-button">Entrar no evento</button>
+          </form>
+
+          <div class="self-actions" id="self-actions" hidden>
+            <p class="muted">Você está participando como <strong id="self-name"></strong>.</p>
+            <button id="change-participant" type="button" class="link-button">Trocar de participante</button>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nome</th>
+                  <th>Pedaços</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="participants-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
