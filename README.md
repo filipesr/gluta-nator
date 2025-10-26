@@ -14,10 +14,18 @@ Contador de pedaços no rodízio - Transforme suas competições de pizza/sushi 
 ## Como usar
 
 1. **Criar um evento**: Digite o nome da sua competição (ex: "Rodízio da galera")
-2. **Compartilhar**: Copie o link e envie para os participantes
-3. **Entrar**: Cada pessoa acessa o link, digita seu nome e começa a contar
-4. **Competir**: Use os botões + e - para atualizar sua contagem
-5. **Vencer**: Veja quem está no topo do ranking!
+2. **Compartilhar**: Copie o link do evento e envie no grupo
+3. **Entrar**: Cada pessoa acessa o link e digita seu nome na primeira tela
+4. **Competir**: Cada um controla apenas o próprio contador com botões grandes + e -
+5. **Acompanhar**: O ranking atualiza automaticamente a cada 10 segundos
+6. **Vencer**: Veja quem está no topo do ranking em tempo real!
+
+### Recursos:
+- Cada participante só pode editar o próprio contador
+- Seu contador fica destacado em roxo com botões grandes
+- Ranking mostra todos os competidores
+- Atualização automática sem precisar dar refresh
+- Seu nome fica marcado com 👤 no ranking
 
 ## Desenvolvimento local
 
