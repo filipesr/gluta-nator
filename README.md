@@ -9,7 +9,7 @@ Contador de pedaços no rodízio - Transforme suas competições de pizza/sushi 
 - 📊 Ranking em tempo real
 - 📱 Design responsivo para mobile
 - 🔗 Compartilhamento fácil via link
-- 💾 Dados salvos localmente no navegador
+- 💾 Dados salvos em banco de dados compartilhado (Vercel KV)
 
 ## Como usar
 
@@ -33,6 +33,38 @@ npm run build
 ```
 
 Acesse http://localhost:3000
+
+**Nota**: Para desenvolvimento local, você precisará configurar o Vercel KV. Veja a seção de configuração abaixo.
+
+## Configuração do Vercel KV
+
+Este projeto usa Vercel KV (Redis) para armazenar os eventos e participantes. Isso permite que múltiplos usuários em diferentes dispositivos acessem os mesmos dados.
+
+### Configuração Automática (Recomendado)
+
+Quando você faz deploy na Vercel:
+
+1. Acesse seu projeto na Vercel Dashboard
+2. Vá em **Storage** → **Create Database**
+3. Selecione **KV (Redis)** e clique em **Create**
+4. A Vercel automaticamente conecta o database ao seu projeto
+5. Faça redeploy do projeto (ou ele redeploya automaticamente)
+
+Pronto! As variáveis de ambiente são configuradas automaticamente.
+
+### Configuração Manual (Desenvolvimento Local)
+
+Se quiser testar localmente:
+
+1. Crie um KV database na Vercel (mesmo sem fazer deploy)
+2. Copie as credenciais do database
+3. Crie um arquivo `.env.local` na raiz do projeto:
+   ```bash
+   KV_REST_API_URL=your_url
+   KV_REST_API_TOKEN=your_token
+   KV_REST_API_READ_ONLY_TOKEN=your_read_only_token
+   ```
+4. Execute `npm run dev`
 
 ## Deploy na Vercel
 
@@ -58,24 +90,31 @@ vercel
 
 ## Tecnologias
 
-- Next.js 14 (App Router)
+- Next.js 14 (App Router + API Routes)
 - TypeScript
 - React
-- LocalStorage para persistência
+- Vercel KV (Redis) para persistência
 - CSS puro (sem frameworks)
 
 ## Estrutura do projeto
 
 ```
 gluta-nator/
-├── app/                    # Next.js App Router
-│   ├── event/[id]/        # Página do evento
-│   ├── layout.tsx         # Layout principal
-│   ├── page.tsx           # Página inicial
-│   └── globals.css        # Estilos globais
-├── lib/                   # Utilitários
-│   └── events.ts          # Gerenciamento de eventos
-└── public/                # Arquivos estáticos
+├── app/                                    # Next.js App Router
+│   ├── api/                               # API Routes
+│   │   └── events/                        # Endpoints de eventos
+│   │       ├── route.ts                   # POST criar evento
+│   │       └── [id]/                      # Rotas do evento
+│   │           ├── route.ts               # GET buscar evento
+│   │           └── participants/          # Rotas de participantes
+│   ├── event/[id]/                        # Página do evento
+│   ├── layout.tsx                         # Layout principal
+│   ├── page.tsx                           # Página inicial
+│   └── globals.css                        # Estilos globais
+├── lib/                                   # Utilitários
+│   ├── events.ts                          # Cliente API (funções fetch)
+│   └── kv.ts                              # Lógica Vercel KV (server-side)
+└── public/                                # Arquivos estáticos
 ```
 
 ## Licença

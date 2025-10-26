@@ -7,14 +7,22 @@ import { createEvent } from '@/lib/events'
 export default function Home() {
   const [eventName, setEventName] = useState('')
   const [eventId, setEventId] = useState('')
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  const handleCreateEvent = (e: React.FormEvent) => {
+  const handleCreateEvent = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!eventName.trim()) return
+    if (!eventName.trim() || loading) return
 
-    const event = createEvent(eventName)
-    router.push(`/event/${event.id}`)
+    setLoading(true)
+    const event = await createEvent(eventName)
+    setLoading(false)
+
+    if (event) {
+      router.push(`/event/${event.id}`)
+    } else {
+      alert('Erro ao criar evento. Tente novamente.')
+    }
   }
 
   const handleJoinEvent = (e: React.FormEvent) => {
@@ -43,8 +51,8 @@ export default function Home() {
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
           />
-          <button type="submit" className="button button-primary">
-            Criar Evento
+          <button type="submit" className="button button-primary" disabled={loading}>
+            {loading ? 'Criando...' : 'Criar Evento'}
           </button>
         </form>
 

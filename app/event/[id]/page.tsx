@@ -12,13 +12,14 @@ export default function EventPage() {
   const [event, setEvent] = useState<Event | null>(null)
   const [newParticipantName, setNewParticipantName] = useState('')
   const [notFound, setNotFound] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     loadEvent()
   }, [eventId])
 
-  const loadEvent = () => {
-    const loadedEvent = getEvent(eventId)
+  const loadEvent = async () => {
+    const loadedEvent = await getEvent(eventId)
     if (loadedEvent) {
       setEvent(loadedEvent)
       setNotFound(false)
@@ -27,19 +28,24 @@ export default function EventPage() {
     }
   }
 
-  const handleAddParticipant = (e: React.FormEvent) => {
+  const handleAddParticipant = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newParticipantName.trim()) return
+    if (!newParticipantName.trim() || loading) return
 
-    const updatedEvent = addParticipant(eventId, newParticipantName)
+    setLoading(true)
+    const updatedEvent = await addParticipant(eventId, newParticipantName)
+    setLoading(false)
+
     if (updatedEvent) {
       setEvent(updatedEvent)
       setNewParticipantName('')
+    } else {
+      alert('Erro ao adicionar participante. Tente novamente.')
     }
   }
 
-  const handleUpdateCount = (participantId: string, delta: number) => {
-    const updatedEvent = updateParticipantCount(eventId, participantId, delta)
+  const handleUpdateCount = async (participantId: string, delta: number) => {
+    const updatedEvent = await updateParticipantCount(eventId, participantId, delta)
     if (updatedEvent) {
       setEvent(updatedEvent)
     }
@@ -106,8 +112,8 @@ export default function EventPage() {
             value={newParticipantName}
             onChange={(e) => setNewParticipantName(e.target.value)}
           />
-          <button type="submit" className="button button-primary">
-            Entrar
+          <button type="submit" className="button button-primary" disabled={loading}>
+            {loading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
       </div>
